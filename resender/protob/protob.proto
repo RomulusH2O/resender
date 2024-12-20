@@ -1,0 +1,79 @@
+syntax = "proto3";
+package transport;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/Romulus/forbidden/resender/protob";
+
+message FileUploadRequest {
+    string name = 1;
+}
+
+message FileUploadResponse {
+    bool ok = 1;
+    string id = 2;
+}
+
+message FileDownloadRequest {
+    string name = 1;
+}
+
+message FileDownloadResponse {
+    bool ok = 1;
+    string id = 2;
+}
+
+message KeepUpdatedRequest {
+
+}
+
+message KnownFileInfo {
+    string name = 2;
+    bool final = 3;
+}
+
+message FileContentChunk {
+    string id = 1;
+    bytes data = 2;
+    string senderNickname = 3;
+    bool final = 4;
+}
+
+message ChatMessageRequest {
+    string chatId = 1;
+    int32 count = 2;
+    google.protobuf.Timestamp newerThan = 3;
+    google.protobuf.Timestamp olderThan = 4;
+}
+
+message ChatMessage {
+	string id = 1;
+	string chatId = 2;
+	string text = 3;
+	string senderNickname = 4;
+	google.protobuf.Timestamp sendTimestamp = 5;
+	google.protobuf.Timestamp uploadTimestamp = 6;
+    bool final = 7;
+
+    bool attachmentPresent = 8;
+    string attachmentName = 9;
+}
+
+message UserTypingInfo {
+    string clientId = 1;
+    bool typing = 2;
+    bool final = 3;
+}
+
+service ChatFileService {
+
+    rpc RequestRespond(FileUploadRequest) returns (FileUploadResponse) {}
+    rpc TransferChunks(stream FileContentChunk) returns (google.protobuf.Empty) {}
+    rpc DownloadChunks(FileDownloadRequest) returns (stream FileContentChunk) {}
+    rpc KeepInfoUpdated(KeepUpdatedRequest) returns (stream KnownFileInfo) {}
+    rpc UploadChatMessage(ChatMessage) returns (google.protobuf.Empty) {}
+    rpc GetMessageSequence(stream ChatMessageRequest) returns (stream ChatMessage) {}
+    rpc UpdateSharedTypingInfo(UserTypingInfo) returns (google.protobuf.Empty) {}
+    rpc BroadcastSharedTypingInfo(google.protobuf.Empty) returns (stream UserTypingInfo) {}
+}
