@@ -265,6 +265,10 @@ func (c *genCtrl) stayUpdatedWithChat(u *ui) {
 
 			if msg.Final {
 
+				if len(strTemps) == 0 {
+					break
+				}
+
 				items := u.messagesContainer.Objects
 
 				for i, s := range strTemps {
@@ -274,7 +278,6 @@ func (c *genCtrl) stayUpdatedWithChat(u *ui) {
 
 					} else {
 						items = append(items, newMessageCell(&message{username: nickTemps[i], content: s}))
-
 					}
 				}
 
