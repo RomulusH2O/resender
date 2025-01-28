@@ -1,4 +1,4 @@
-# forbidden
+# Resender
 Simple chat desktop app with client and server
 
 
