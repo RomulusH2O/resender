@@ -38,7 +38,7 @@ How to build
 
 1. Clone the repository.
    ```sh
-   git clone https://github.com/github_username/repo_name.git](https://github.com/RomulusH2O/resender
+   git clone https://github.com/RomulusH2O/resender
    ```
 2. Compile the Client.
 - Linux:
@@ -67,7 +67,7 @@ Run the Server
    ./server -service-ip YOUR.SUBNET.IPv4.ADDRESS
    ```
 Run the Client(s)
-- First set the Server's IP address in the file remote.txt
+(First set the Server's IP address in the file remote.txt)
    ```sh
    ./resender
    ```
